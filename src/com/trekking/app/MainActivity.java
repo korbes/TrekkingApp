@@ -1,5 +1,7 @@
 package com.trekking.app;
 
+import java.text.DecimalFormat;
+
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.content.ComponentName;
@@ -10,11 +12,37 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 public class MainActivity extends ActionBarActivity implements ClickListener {
 	
-    
+
+	@Override
+	public void Clicked() {
+		runOnUiThread(new Runnable()
+		{
+
+			@Override
+			public void run() {
+				IncrementDistanceCounter();				
+			}		
+		});
+	}
+	
+	private void IncrementDistanceCounter()
+	{	
+		distanceCovered += stepSize;
+		UpdateDistances();
+	}
+
+	private void UpdateDistances() 
+	{
+		TextView sd = (TextView)findViewById(R.id.strech_distance_value);
+		sd.setText(new DecimalFormat("#.##").format(distanceCovered));
+		sd = (TextView)findViewById(R.id.stretch_distance_total_value);
+		sd.setText(((Integer)stretchDistance).toString());		
+	}
 
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,22 +113,6 @@ public class MainActivity extends ActionBarActivity implements ClickListener {
         }
     }
 
-	@Override
-	public void Clicked() {
-		runOnUiThread(new Runnable()
-		{
-
-			@Override
-			public void run() {
-				IncrementDistanceCounter();				
-			}		
-		});		
-	}
-	
-	private void IncrementDistanceCounter()
-	{	
-		// TODO: aqui vai o código para atualizar a tela 
-	}
 	
 
 	private void registerMediaButton() {
@@ -122,5 +134,9 @@ public class MainActivity extends ActionBarActivity implements ClickListener {
 	}
 	
 	private ComponentName component;
+	
+	private double distanceCovered = 0;
+	private double stepSize = 0.71;
+	private int stretchDistance = 150;
 
 }

@@ -9,8 +9,40 @@
     tools:context="com.trekking.app.MainActivity$PlaceholderFragment" >
 
     <TextView
+        android:id="@+id/strech_distance_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:text="@string/percorrido"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/strech_distance_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/strech_distance_label"
+        android:layout_below="@+id/strech_distance_label"
+        android:layout_marginTop="13dp"
+        android:text=""
+        android:textSize="80sp" />
+
+    <TextView
+        android:id="@+id/stretch_distance_total_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/strech_distance_value"
+        android:layout_alignBottom="@+id/strech_distance_value"
+        android:layout_alignLeft="@+id/stretch_distance_total_label"
+        android:text=""
+        android:textSize="80sp" />
+
+    <TextView
+        android:id="@+id/stretch_distance_total_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/strech_distance_value"
+        android:layout_marginLeft="140dp"
+        android:layout_toRightOf="@+id/strech_distance_label"
+        android:text="@string/total_trecho"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>
