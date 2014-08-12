@@ -45,4 +45,14 @@
         android:text="@string/total_trecho"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
+    <Button
+        android:id="@+id/next_stretch_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:maxWidth="80dp"
+        android:text="@string/next_stretch" />
+
 </RelativeLayout>

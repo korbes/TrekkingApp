@@ -3,10 +3,11 @@
 
     <string name="app_name">TrekkingApp</string>
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Configurações</string>
     <string name="percorrido">Percorrido:</string>
     <string name="total_trecho">Total do Trecho:</string>
     <string name="action_next">Próximo Trecho</string>
+    <string name="next_stretch">Próx. Trecho</string>
     
 
 </resources>
