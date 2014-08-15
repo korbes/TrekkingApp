@@ -2,11 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:onClick="Step"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.trekking.app.MainActivity$PlaceholderFragment" >
+    tools:context="com.trekking.app.MainActivity$PlaceholderFragment" 
+    android:keepScreenOn="true">
 
     <TextView
         android:id="@+id/strech_distance_label"
@@ -53,6 +55,16 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:maxWidth="80dp"
+        android:onClick="OnNextStretch"
         android:text="@string/next_stretch" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/next_stretch_button"
+        android:layout_toLeftOf="@+id/next_stretch_button"
+        android:onClick="OnStep"
+        android:text="Passo" />
 
 </RelativeLayout>

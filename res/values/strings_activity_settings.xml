@@ -1,0 +1,12 @@
+<resources>
+
+    <string name="title_activity_settings">Configurações</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">Geral</string>
+    <string name="pref_title_step_length">Tamanho do Passo</string>
+    <string name="pref_title_start_time">Hora da Largada</string>
+
+</resources>

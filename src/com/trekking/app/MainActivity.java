@@ -5,7 +5,9 @@ import java.text.DecimalFormat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.content.ComponentName;
+import android.content.Intent;
 import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,11 +27,34 @@ public class MainActivity extends ActionBarActivity implements ClickListener {
 
 			@Override
 			public void run() {
-				IncrementDistanceCounter();				
+				Step();				
 			}		
 		});
 	}
 	
+	public void OnStep(View v)
+	{
+		Step();
+	}
+	
+	public void OnNextStretch(View v)
+	{
+		
+	}
+	
+	private void Step()
+	{
+		PlayBeep();
+		IncrementDistanceCounter();
+	}
+	
+	private void PlayBeep() 
+	{
+		toneG.release();
+		toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);	
+		toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200); 
+	}
+
 	private void IncrementDistanceCounter()
 	{	
 		distanceCovered += stepSize;
@@ -54,6 +79,8 @@ public class MainActivity extends ActionBarActivity implements ClickListener {
                     .commit();
         }
         
+        audioManager = ((AudioManager)getSystemService(AUDIO_SERVICE));
+        
         registerMediaButton();
     }
 
@@ -71,6 +98,7 @@ public class MainActivity extends ActionBarActivity implements ClickListener {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+        	startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -119,7 +147,7 @@ public class MainActivity extends ActionBarActivity implements ClickListener {
 		component = new ComponentName( 
                 this,
                 HeadsetButtonReceiver.class);
-		((AudioManager)getSystemService(AUDIO_SERVICE)).registerMediaButtonEventReceiver(component);
+		audioManager.registerMediaButtonEventReceiver(component);
         
         HeadsetButtonBoard.GetBoard().RegisterClickListener(this);
 	}
@@ -127,16 +155,19 @@ public class MainActivity extends ActionBarActivity implements ClickListener {
 
 	private void unregisterMediaButton() {
 		if (component != null)
-			((AudioManager)getSystemService(AUDIO_SERVICE)).unregisterMediaButtonEventReceiver(component);
+			audioManager.unregisterMediaButtonEventReceiver(component);
 		
     	HeadsetButtonBoard.GetBoard().UnregisterClickListener(this);
     	component = null;    	
 	}
 	
 	private ComponentName component;
+	private AudioManager audioManager;
+	private ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);	
 	
 	private double distanceCovered = 0;
 	private double stepSize = 0.71;
 	private int stretchDistance = 150;
-
+	
+	
 }

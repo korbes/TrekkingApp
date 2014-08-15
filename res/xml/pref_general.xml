@@ -1,0 +1,25 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+
+    <EditTextPreference
+        android:capitalize="words"
+        android:defaultValue="0.71"
+        android:inputType="numberDecimal"
+        android:key="pref_step_length"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_step_length" />
+
+    <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
+    <EditTextPreference
+        android:capitalize="words"
+        android:defaultValue="9:06:00"
+        android:inputType="time"
+        android:key="pref_start_time"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_start_time" />
+
+</PreferenceScreen>

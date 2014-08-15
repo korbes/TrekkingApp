@@ -10,8 +10,7 @@ public class HeadsetButtonReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context arg0, Intent intent) {
-		
-		
+				
 		Bundle bundle = intent.getExtras();
 		KeyEvent key = (KeyEvent)bundle.get(Intent.EXTRA_KEY_EVENT);
 		
