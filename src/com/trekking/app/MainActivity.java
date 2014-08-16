@@ -10,7 +10,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
 import android.text.method.DateTimeKeyListener;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.ComponentName;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
@@ -42,8 +46,6 @@ public class MainActivity extends ActionBarActivity implements ClickListener {
         }
         
         audioManager = ((AudioManager)getSystemService(AUDIO_SERVICE));
-        
-        registerMediaButton();
         
         stage = StageLoader.load(Environment.getExternalStorageDirectory().getAbsolutePath() + "/trekking.json");
         //stage.setStartTime(new Date());
@@ -87,10 +89,41 @@ public class MainActivity extends ActionBarActivity implements ClickListener {
 		step();
 	}
 	
-	public void onZero(View v)
+	public void onZeroStretch(View v)
 	{
-		currentLength = 0;
-		updateLabels();
+		AlertDialog.Builder confirm = new AlertDialog.Builder(this);
+		confirm.setMessage("Confirma Zerar Trecho?");
+		confirm.setTitle("TrekkingApp");
+		confirm.setPositiveButton("Sim", new OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				currentLength = 0;
+				updateLabels();
+				
+			}
+		});
+		confirm.setNegativeButton("Não", null);
+		confirm.create().show();
+	}
+	
+	public void onZeroStage(View v)
+	{
+		AlertDialog.Builder confirm = new AlertDialog.Builder(this);
+		confirm.setMessage("Confirma Zerar Etapa?");
+		confirm.setTitle("TrekkingApp");
+		confirm.setPositiveButton("Sim", new OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				currentLength = 0;
+				stage.setCurrentStretch(0);
+				updateLabels();
+				
+			}
+		});
+		confirm.setNegativeButton("Não", null);
+		confirm.create().show();
 	}
 	
 	public void onNextStretch(View v)

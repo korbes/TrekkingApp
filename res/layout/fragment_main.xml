@@ -57,15 +57,6 @@
         android:onClick="onNextStretch"
         android:text="@string/next_stretch" />
 
-    <Button
-        android:id="@+id/step_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/next_stretch_button"
-        android:layout_toLeftOf="@+id/next_stretch_button"
-        android:onClick="onStep"
-        android:text="Passo" />
-
     <TextView
         android:id="@+id/time_delay_label"
         android:layout_width="wrap_content"
@@ -81,13 +72,36 @@
         android:layout_toLeftOf="@+id/next_stretch_button"
         android:text="" />
 
+
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/zero_stretch_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"        
+        android:layout_alignLeft="@+id/strech_distance_value"
+        android:layout_below="@+id/strech_distance_value"
+        android:layout_marginTop="13dp"        
+        android:onClick="onZeroStretch"
+        android:text="Zerar Trecho" />
+        
+    <Button
+        android:id="@+id/zero_stage_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/step_button"
-        android:layout_below="@+id/step_button"
-        android:onClick="onZero"
-        android:text="Zerar" />
+        android:layout_alignBaseline="@+id/zero_stretch_button"
+        android:layout_toRightOf="@+id/zero_stretch_button" 
+        android:onClick="onZeroStage"
+        android:text="Zerar Etapa"/>
+    
+    
+    <Button
+        android:id="@+id/step_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/zero_stretch_button"
+        android:layout_toRightOf="@+id/zero_stretch_button" 
+        android:onClick="onStep"
+        android:text="Passo"
+        android:visibility="gone" />
+    
 
 </RelativeLayout>
