@@ -15,7 +15,7 @@ public class HeadsetButtonReceiver extends BroadcastReceiver {
 		KeyEvent key = (KeyEvent)bundle.get(Intent.EXTRA_KEY_EVENT);
 		
 		if (key.getAction() == KeyEvent.ACTION_UP)
-			HeadsetButtonBoard.GetBoard().Clicked();		
+			HeadsetButtonBoard.getBoard().clicked();		
 	}
 
 }

@@ -6,26 +6,26 @@ public class HeadsetButtonBoard {
 	
 	private HeadsetButtonBoard(){}
 	
-	public static HeadsetButtonBoard GetBoard() {
+	public static HeadsetButtonBoard getBoard() {
 		return _board;
 	}
 	
-	public void Clicked()
+	public void clicked()
 	{
 		for (ClickListener l: _listeners)
 		{
-			l.Clicked();
+			l.clicked();
 		}
 		
 	}
 	
-	public void RegisterClickListener(ClickListener l)
+	public void registerClickListener(ClickListener l)
 	{
 		if (!_listeners.contains(l))
 			_listeners.add(l);
 	}
 	
-	public void UnregisterClickListener(ClickListener l)
+	public void unregisterClickListener(ClickListener l)
 	{
 		_listeners.remove(l);
 	}

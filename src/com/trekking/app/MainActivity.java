@@ -1,6 +1,9 @@
 package com.trekking.app;
 
 import java.text.DecimalFormat;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
@@ -9,6 +12,10 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,56 +26,6 @@ import android.widget.TextView;
 
 public class MainActivity extends ActionBarActivity implements ClickListener {
 	
-
-	@Override
-	public void Clicked() {
-		runOnUiThread(new Runnable()
-		{
-
-			@Override
-			public void run() {
-				Step();				
-			}		
-		});
-	}
-	
-	public void OnStep(View v)
-	{
-		Step();
-	}
-	
-	public void OnNextStretch(View v)
-	{
-		
-	}
-	
-	private void Step()
-	{
-		PlayBeep();
-		IncrementDistanceCounter();
-	}
-	
-	private void PlayBeep() 
-	{
-		toneG.release();
-		toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);	
-		toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200); 
-	}
-
-	private void IncrementDistanceCounter()
-	{	
-		distanceCovered += stepSize;
-		UpdateDistances();
-	}
-
-	private void UpdateDistances() 
-	{
-		TextView sd = (TextView)findViewById(R.id.strech_distance_value);
-		sd.setText(new DecimalFormat("#.##").format(distanceCovered));
-		sd = (TextView)findViewById(R.id.stretch_distance_total_value);
-		sd.setText(((Integer)stretchDistance).toString());		
-	}
-
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,8 +39,93 @@ public class MainActivity extends ActionBarActivity implements ClickListener {
         audioManager = ((AudioManager)getSystemService(AUDIO_SERVICE));
         
         registerMediaButton();
+        
+        stage = StageLoader.load(Environment.getExternalStorageDirectory().getAbsolutePath() + "/trekking.json");
+        //stage.setStartTime(new Date());
+        //startTimer();
     }
+/*
+	private void startTimer() {
+		mHandler = new Handler() {
+			    public void handleMessage(Message msg) {
+			    	updateTimeDelay();
+			        updateLabels();
+			    }
+			};	
+	    timer.scheduleAtFixedRate(new TimerTask() {
+			public void run() {
+	            mHandler.obtainMessage(1).sendToTarget();
+	        }
+	    }, 0, 1000);
+	};
+	
+	protected void updateTimeDelay() {
+		stage.getTimeDifference(currentStretch, currentLength);
+	}
 
+	*/
+
+	@Override
+	public void clicked() {
+		runOnUiThread(new Runnable()
+		{
+
+			@Override
+			public void run() {
+				step();				
+			}		
+		});
+	}
+	
+	public void onStep(View v)
+	{
+		step();
+	}
+	
+	public void onZero(View v)
+	{
+		currentLength = 0;
+		updateLabels();
+	}
+	
+	public void onNextStretch(View v)
+	{
+		stage.nextStretch();		
+		currentLength = 0;
+		updateLabels();
+	}
+	
+	private void step()
+	{
+		playBeep();
+		incrementDistanceCounter();
+	}
+	
+	private void playBeep() 
+	{
+		toneG.release();
+		toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);	
+		toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200); 
+	}
+
+	private void incrementDistanceCounter()
+	{	
+		currentLength += stepSize;
+		updateLabels();
+	}
+
+	private void updateLabels() 
+	{
+		TextView sd = (TextView)findViewById(R.id.strech_distance_value);
+		sd.setText(new DecimalFormat("#.##").format(currentLength));
+		
+		sd = (TextView)findViewById(R.id.stretch_distance_total_value);
+		sd.setText(stage.getStretchLengthInfo());
+		
+		sd = (TextView)findViewById(R.id.current_stretch_label);
+		sd.setText(stage.getStageSummary());
+	}
+	
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -116,6 +158,7 @@ public class MainActivity extends ActionBarActivity implements ClickListener {
     {
     	registerMediaButton();
     	super.onResume();
+    	updateLabels();
     }
     
     @Override
@@ -149,7 +192,7 @@ public class MainActivity extends ActionBarActivity implements ClickListener {
                 HeadsetButtonReceiver.class);
 		audioManager.registerMediaButtonEventReceiver(component);
         
-        HeadsetButtonBoard.GetBoard().RegisterClickListener(this);
+        HeadsetButtonBoard.getBoard().registerClickListener(this);
 	}
 
 
@@ -157,17 +200,20 @@ public class MainActivity extends ActionBarActivity implements ClickListener {
 		if (component != null)
 			audioManager.unregisterMediaButtonEventReceiver(component);
 		
-    	HeadsetButtonBoard.GetBoard().UnregisterClickListener(this);
+    	HeadsetButtonBoard.getBoard().unregisterClickListener(this);
     	component = null;    	
 	}
-	
+		
 	private ComponentName component;
 	private AudioManager audioManager;
 	private ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);	
 	
-	private double distanceCovered = 0;
-	private double stepSize = 0.71;
-	private int stretchDistance = 150;
 	
+	private double stepSize = 0.71;
+	private double currentLength = 0;
+	
+	private Stage stage = null;
+	//private Timer timer = new Timer();	
+	//public Handler mHandler;
 	
 }
