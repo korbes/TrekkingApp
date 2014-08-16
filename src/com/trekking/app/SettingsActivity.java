@@ -96,8 +96,8 @@ public class SettingsActivity extends PreferenceActivity {
 		// Bind the summaries of EditText/List/Dialog/Ringtone preferences to
 		// their values. When their values change, their summaries are updated
 		// to reflect the new value, per the Android Design guidelines.
-		bindPreferenceSummaryToValue(findPreference("pref_step_length"));
-		bindPreferenceSummaryToValue(findPreference("pref_start_time"));
+		bindPreferenceSummaryToValue(findPreference(STEP_LENGTH));
+		bindPreferenceSummaryToValue(findPreference(START_TIME));
 	}
 
 	/** {@inheritDoc} */
@@ -189,9 +189,12 @@ public class SettingsActivity extends PreferenceActivity {
 			// to their values. When their values change, their summaries are
 			// updated to reflect the new value, per the Android Design
 			// guidelines.
-			bindPreferenceSummaryToValue(findPreference("example_text"));
-			bindPreferenceSummaryToValue(findPreference("example_list"));
+			bindPreferenceSummaryToValue(findPreference(STEP_LENGTH));
+			bindPreferenceSummaryToValue(findPreference(START_TIME));
 		}
 	}
+	
+	public static final String STEP_LENGTH = "pref_step_length";
+	public static final String START_TIME = "pref_start_time";
 
 }

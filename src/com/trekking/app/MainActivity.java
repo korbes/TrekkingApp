@@ -1,20 +1,25 @@
 package com.trekking.app;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
+import android.text.format.DateFormat;
+import android.text.method.DateTimeKeyListener;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -42,7 +47,7 @@ public class MainActivity extends ActionBarActivity implements ClickListener {
         
         stage = StageLoader.load(Environment.getExternalStorageDirectory().getAbsolutePath() + "/trekking.json");
         //stage.setStartTime(new Date());
-        //startTimer();
+        //startTimer();        
     }
 /*
 	private void startTimer() {
@@ -110,7 +115,7 @@ public class MainActivity extends ActionBarActivity implements ClickListener {
 
 	private void incrementDistanceCounter()
 	{	
-		currentLength += stepSize;
+		currentLength += stepLength;
 		updateLabels();
 	}
 
@@ -149,17 +154,22 @@ public class MainActivity extends ActionBarActivity implements ClickListener {
     @Override
     protected void onPause()
     {
-    	unregisterMediaButton();
     	super.onPause();
+    	unregisterMediaButton();    	
+    	saveState();
     }
+
     
     @Override
     protected void onResume()
-    {
-    	registerMediaButton();
+    {   
     	super.onResume();
+    	registerMediaButton();    	
+    	loadPreferences();    	
+    	restoreState();	    	
     	updateLabels();
     }
+
     
     @Override
     protected void onDestroy()
@@ -167,7 +177,7 @@ public class MainActivity extends ActionBarActivity implements ClickListener {
     	unregisterMediaButton();
     	super.onDestroy();
     }
-
+    
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -184,7 +194,15 @@ public class MainActivity extends ActionBarActivity implements ClickListener {
         }
     }
 
-	
+	private void loadPreferences() {
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        stepLength = Double.parseDouble(pref.getString(SettingsActivity.STEP_LENGTH, "0.7"));
+        try {
+			startTime = DateFormat.getTimeFormat(this).parse(pref.getString(SettingsActivity.START_TIME, new Date().toString()));
+		} catch (ParseException e) {
+			startTime = new Date();
+		}
+	}
 
 	private void registerMediaButton() {
 		component = new ComponentName( 
@@ -203,17 +221,34 @@ public class MainActivity extends ActionBarActivity implements ClickListener {
     	HeadsetButtonBoard.getBoard().unregisterClickListener(this);
     	component = null;    	
 	}
+
+	private void saveState() {
+		SharedPreferences state = getSharedPreferences(PREFS_NAME, 0);
+    	SharedPreferences.Editor editor = state.edit();
+    	editor.putString(CURRENT_LENGTH, ((Double)currentLength).toString());
+    	editor.putInt(CURRENT_STRETCH, stage.getCurrentStretch());
+    	editor.commit();
+	}
+	
+	private void restoreState() {
+		SharedPreferences state = getSharedPreferences(PREFS_NAME, 0);
+    	currentLength = Double.parseDouble(state.getString(CURRENT_LENGTH, "0"));
+    	stage.setCurrentStretch(state.getInt(CURRENT_STRETCH, 0));
+	}
 		
 	private ComponentName component;
 	private AudioManager audioManager;
 	private ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);	
 	
-	
-	private double stepSize = 0.71;
+	private Date startTime = new Date();
+	private double stepLength = 0;
 	private double currentLength = 0;
 	
 	private Stage stage = null;
 	//private Timer timer = new Timer();	
 	//public Handler mHandler;
-	
+
+	private static final String PREFS_NAME = "current_state";
+	private static final String CURRENT_LENGTH = "current_length";
+	private static final String CURRENT_STRETCH = "current_stretch";	
 }

@@ -52,7 +52,18 @@ public class StageImpl implements Stage {
 		return stretches.get(currentStretch).length;
 	}
 
+	@Override
+	public void setCurrentStretch(int stretchNumber) {
+		if (stretchNumber < getStretchCount())
+			currentStretch = stretchNumber;
+	}
+
+	@Override
+	public int getCurrentStretch() {
+		return currentStretch;
+	}
+
 	private ArrayList<Stretch> stretches = new ArrayList<Stretch>();
 	private int currentStretch = 0;
-	
+
 }

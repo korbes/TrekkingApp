@@ -12,6 +12,10 @@ public interface Stage {
 
 	String getStretchLengthInfo();
 
+	void setCurrentStretch(int stretchNumber);
+
+	int getCurrentStretch();
+
 	/*
 	void setStartTime(Date startTime);	
 	

@@ -24,7 +24,7 @@
         android:layout_below="@+id/strech_distance_label"
         android:layout_marginTop="13dp"
         android:text=""
-        android:textSize="80sp" />
+        android:textSize="60sp" />
 
     <TextView
         android:id="@+id/stretch_distance_total_value"
@@ -34,7 +34,7 @@
         android:layout_alignBottom="@+id/strech_distance_value"
         android:layout_alignLeft="@+id/stretch_distance_total_label"
         android:text=""
-        android:textSize="80sp" />
+        android:textSize="60sp" />
 
     <TextView
         android:id="@+id/stretch_distance_total_label"
