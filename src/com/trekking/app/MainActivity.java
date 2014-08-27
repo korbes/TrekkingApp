@@ -25,6 +25,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -51,6 +52,22 @@ public class MainActivity extends ActionBarActivity implements ClickListener {
         //stage.setStartTime(new Date());
         //startTimer();        
     }
+	
+	 @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        int keyCode = event.getKeyCode();
+        switch (keyCode) {
+	        case KeyEvent.KEYCODE_VOLUME_UP:
+	        case KeyEvent.KEYCODE_ENTER:
+	        	if (event.getAction() == KeyEvent.ACTION_DOWN)
+	        		step();
+	            return true;
+	            
+	        default:
+	            return super.dispatchKeyEvent(event);
+        }
+    }
+	
 /*
 	private void startTimer() {
 		mHandler = new Handler() {
